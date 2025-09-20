@@ -16,29 +16,61 @@
 
 		if (!ctx) return;
 
-		// Get canvas dimensions
-		const rect = canvas.getBoundingClientRect();
-		const canvas_width = rect.width;
-		const canvas_height = rect.height;
+		// Get canvas dimensions (use the actual canvas size, not getBoundingClientRect)
+		const canvas_width = canvas.width / window.devicePixelRatio;
+		const canvas_height = canvas.height / window.devicePixelRatio;
 
 		// Clear canvas
 		ctx.clearRect(0, 0, canvas_width, canvas_height);
 
-		// Get the computed color from the helper div
-		const computed_style = window.getComputedStyle(color_ref);
-		let primary_color = computed_style
-			.getPropertyValue('--color-primary')
-			.trim();
+		// Get the primary color from CSS or use fallback
+		let primary_color = '#3b82f6'; // Default fallback
 
-		// Fallback to a default color if primary color is not available
-		if (!primary_color) {
-			primary_color = '#3b82f6'; // blue-500 as fallback
+		try {
+			const computed_style = window.getComputedStyle(color_ref);
+			const css_color =
+				computed_style.backgroundColor ||
+				computed_style.getPropertyValue('--color-primary').trim();
+			if (
+				css_color &&
+				css_color !== 'rgba(0, 0, 0, 0)' &&
+				css_color !== 'transparent'
+			) {
+				primary_color = css_color;
+			}
+		} catch (e) {
+			// Use fallback color
 		}
 
 		if (is_recording) {
 			const audio_data = get_audio_data();
 
-			if (!audio_data) return;
+			if (!audio_data || audio_data.length === 0) {
+				// Draw a minimal animation when no data is available yet
+				ctx.fillStyle = primary_color;
+				const bar_width = 4;
+				const bar_gap = 2;
+				const bar_count = Math.floor(
+					canvas_width / (bar_width + bar_gap),
+				);
+
+				for (let i = 0; i < bar_count; i++) {
+					const x = i * (bar_width + bar_gap);
+					const height = Math.random() * 20 + 5;
+					const y = canvas_height - height;
+
+					ctx.beginPath();
+					ctx.roundRect(x, y, bar_width, height, [
+						bar_width / 2,
+						bar_width / 2,
+						0,
+						0,
+					]);
+					ctx.fill();
+				}
+				request_ref = requestAnimationFrame(render_frame);
+				return;
+			}
 
 			const bar_width = Math.ceil(canvas_width / 64);
 			const bar_gap = 2;
