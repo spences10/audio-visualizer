@@ -16,9 +16,13 @@
 
 		if (!ctx) return;
 
-		// Clear canvas - use the actual display size, not the scaled canvas size
+		// Get canvas dimensions
 		const rect = canvas.getBoundingClientRect();
-		ctx.clearRect(0, 0, rect.width, rect.height);
+		const canvas_width = rect.width;
+		const canvas_height = rect.height;
+
+		// Clear canvas
+		ctx.clearRect(0, 0, canvas_width, canvas_height);
 
 		// Get the computed color from the helper div
 		const computed_style = window.getComputedStyle(color_ref);
@@ -36,13 +40,12 @@
 
 			if (!audio_data) return;
 
-			const rect = canvas.getBoundingClientRect();
-			const bar_width = Math.ceil(rect.width / 64);
+			const bar_width = Math.ceil(canvas_width / 64);
 			const bar_gap = 2;
 			const bar_count = Math.floor(
-				rect.width / (bar_width + bar_gap),
+				canvas_width / (bar_width + bar_gap),
 			);
-			const multiplier = rect.height / 255;
+			const multiplier = canvas_height / 255;
 
 			// Use the computed style directly
 			ctx.fillStyle = primary_color;
@@ -60,7 +63,7 @@
 
 				const x = i * (bar_width + bar_gap);
 				const height = value * multiplier;
-				const y = rect.height - height;
+				const y = canvas_height - height;
 
 				// Draw rounded bars
 				ctx.beginPath();
@@ -74,8 +77,7 @@
 			}
 		} else {
 			// Draw placeholder line when not recording
-			const rect = canvas.getBoundingClientRect();
-			const line_y = rect.height / 2;
+			const line_y = canvas_height / 2;
 
 			// Use a semi-transparent version of the base content
 			ctx.strokeStyle = 'rgba(128, 128, 128, 0.5)';
@@ -83,7 +85,7 @@
 
 			ctx.beginPath();
 			ctx.moveTo(0, line_y);
-			ctx.lineTo(rect.width, line_y);
+			ctx.lineTo(canvas_width, line_y);
 			ctx.stroke();
 		}
 

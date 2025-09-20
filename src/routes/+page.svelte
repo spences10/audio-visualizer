@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AudioVisualizer from '$lib/components/audio-visualizer.svelte';
 	import Mic from '$lib/icons/mic.svelte';
+	import Stop from '$lib/icons/stop.svelte';
 	import {
 		start_audio_visualization,
 		stop_audio_visualization,
@@ -22,13 +23,23 @@
 	<h1 class="mb-8 text-3xl font-bold">Audio Visualizer</h1>
 
 	<div class="space-y-6">
-		<button
-			onclick={toggle_recording}
-			class="btn flex items-center gap-2 btn-primary"
-		>
-			<Mic class_names="w-5 h-5" />
-			{recording.is_recording ? 'Stop' : 'Start'} Recording
-		</button>
+		<div class="flex justify-center">
+			<button
+				class="btn btn-circle btn-lg {recording.is_recording
+					? 'btn-error'
+					: 'btn-primary'}"
+				onclick={toggle_recording}
+				aria-label={recording.is_recording
+					? 'Stop recording'
+					: 'Start recording'}
+			>
+				{#if recording.is_recording}
+					<Stop height="24px" width="24px" />
+				{:else}
+					<Mic height="24px" width="24px" />
+				{/if}
+			</button>
+		</div>
 
 		<div class="rounded-lg bg-base-200 p-4">
 			<AudioVisualizer
