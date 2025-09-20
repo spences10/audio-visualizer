@@ -13,6 +13,51 @@
 	let color_ref = $state<HTMLDivElement | null>(null);
 	let request_ref = $state<number | null>(null);
 
+	function draw_rounded_bar(
+		ctx: CanvasRenderingContext2D,
+		x: number,
+		y: number,
+		width: number,
+		height: number,
+		top_rounded: boolean = true,
+	) {
+		const radius = width / 2;
+		const radii = top_rounded
+			? [radius, radius, 0, 0]
+			: [0, 0, radius, radius];
+
+		ctx.beginPath();
+		ctx.roundRect(x, y, width, height, radii);
+		ctx.fill();
+	}
+
+	function draw_bar_set(
+		ctx: CanvasRenderingContext2D,
+		x: number,
+		bar_width: number,
+		height: number,
+		canvas_height: number,
+		mirror_mode: boolean,
+	) {
+		if (mirror_mode) {
+			const center_y = canvas_height / 2;
+			const y_up = center_y - height;
+
+			// Main bar (up)
+			draw_rounded_bar(ctx, x, y_up, bar_width, height, true);
+
+			// Mirror bar (down) with reduced opacity
+			ctx.save();
+			ctx.globalAlpha = 0.6;
+			draw_rounded_bar(ctx, x, center_y, bar_width, height, false);
+			ctx.restore();
+		} else {
+			// Normal mode: bars from bottom
+			const y = canvas_height - height;
+			draw_rounded_bar(ctx, x, y, bar_width, height, true);
+		}
+	}
+
 	function render_frame() {
 		if (!canvas_ref || !color_ref) return;
 
@@ -49,63 +94,7 @@
 
 		if (is_recording) {
 			const audio_data = get_audio_data();
-
-			if (!audio_data || audio_data.length === 0) {
-				// Draw a minimal animation when no data is available yet
-				ctx.fillStyle = primary_color;
-				const bar_width = 4;
-				const bar_gap = 2;
-				const bar_count = Math.floor(
-					canvas_width / (bar_width + bar_gap),
-				);
-
-				for (let i = 0; i < bar_count; i++) {
-					const x = i * (bar_width + bar_gap);
-					const height = Math.random() * 20 + 5;
-
-					if (mirror_mode) {
-						// Draw from center up and down
-						const center_y = canvas_height / 2;
-						const y_up = center_y - height;
-
-						// Main bar (up)
-						ctx.beginPath();
-						ctx.roundRect(x, y_up, bar_width, height, [
-							bar_width / 2,
-							bar_width / 2,
-							0,
-							0,
-						]);
-						ctx.fill();
-
-						// Mirror bar (down) with reduced opacity
-						ctx.save();
-						ctx.globalAlpha = 0.6;
-						ctx.beginPath();
-						ctx.roundRect(x, center_y, bar_width, height, [
-							0,
-							0,
-							bar_width / 2,
-							bar_width / 2,
-						]);
-						ctx.fill();
-						ctx.restore();
-					} else {
-						// Normal mode: bars from bottom
-						const y = canvas_height - height;
-						ctx.beginPath();
-						ctx.roundRect(x, y, bar_width, height, [
-							bar_width / 2,
-							bar_width / 2,
-							0,
-							0,
-						]);
-						ctx.fill();
-					}
-				}
-				request_ref = requestAnimationFrame(render_frame);
-				return;
-			}
+			ctx.fillStyle = primary_color;
 
 			const bar_width = Math.ceil(canvas_width / 64);
 			const bar_gap = 2;
@@ -116,14 +105,13 @@
 				? canvas_height / 2 / 255
 				: canvas_height / 255;
 
-			// Use the computed style directly
-			ctx.fillStyle = primary_color;
-
-			// Draw bars
 			for (let i = 0; i < bar_count; i++) {
 				// Get audio data with some randomness for aesthetics when not enough real data
-				const index = Math.min(i, audio_data.length - 1);
-				let value = audio_data[index] || 0;
+				const index = Math.min(
+					i,
+					audio_data?.length ? audio_data.length - 1 : 0,
+				);
+				let value = audio_data?.[index] || 0;
 
 				// Add subtle randomness for visual interest
 				if (value < 10) {
@@ -132,45 +120,14 @@
 
 				const x = i * (bar_width + bar_gap);
 				const height = value * base_multiplier;
-
-				if (mirror_mode) {
-					// Draw main bar from center up
-					const center_y = canvas_height / 2;
-					const y_up = center_y - height;
-
-					ctx.beginPath();
-					ctx.roundRect(x, y_up, bar_width, height, [
-						bar_width / 2,
-						bar_width / 2,
-						0,
-						0,
-					]);
-					ctx.fill();
-
-					// Draw mirrored bar from center down with reduced opacity
-					ctx.save();
-					ctx.globalAlpha = 0.6;
-					ctx.beginPath();
-					ctx.roundRect(x, center_y, bar_width, height, [
-						0,
-						0,
-						bar_width / 2,
-						bar_width / 2,
-					]);
-					ctx.fill();
-					ctx.restore();
-				} else {
-					// Normal mode: bars from bottom
-					const y = canvas_height - height;
-					ctx.beginPath();
-					ctx.roundRect(x, y, bar_width, height, [
-						bar_width / 2,
-						bar_width / 2,
-						0,
-						0,
-					]);
-					ctx.fill();
-				}
+				draw_bar_set(
+					ctx,
+					x,
+					bar_width,
+					height,
+					canvas_height,
+					mirror_mode,
+				);
 			}
 		} else {
 			// Draw placeholder line when not recording
