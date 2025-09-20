@@ -1,7 +1,12 @@
 <script lang="ts">
-	let { is_recording, get_audio_data } = $props<{
+	let {
+		is_recording,
+		get_audio_data,
+		mirror_mode = false,
+	} = $props<{
 		is_recording: boolean;
 		get_audio_data: () => Uint8Array | null;
+		mirror_mode?: boolean;
 	}>();
 
 	let canvas_ref = $state<HTMLCanvasElement | null>(null);
@@ -57,16 +62,46 @@
 				for (let i = 0; i < bar_count; i++) {
 					const x = i * (bar_width + bar_gap);
 					const height = Math.random() * 20 + 5;
-					const y = canvas_height - height;
 
-					ctx.beginPath();
-					ctx.roundRect(x, y, bar_width, height, [
-						bar_width / 2,
-						bar_width / 2,
-						0,
-						0,
-					]);
-					ctx.fill();
+					if (mirror_mode) {
+						// Draw from center up and down
+						const center_y = canvas_height / 2;
+						const y_up = center_y - height;
+
+						// Main bar (up)
+						ctx.beginPath();
+						ctx.roundRect(x, y_up, bar_width, height, [
+							bar_width / 2,
+							bar_width / 2,
+							0,
+							0,
+						]);
+						ctx.fill();
+
+						// Mirror bar (down) with reduced opacity
+						ctx.save();
+						ctx.globalAlpha = 0.6;
+						ctx.beginPath();
+						ctx.roundRect(x, center_y, bar_width, height, [
+							0,
+							0,
+							bar_width / 2,
+							bar_width / 2,
+						]);
+						ctx.fill();
+						ctx.restore();
+					} else {
+						// Normal mode: bars from bottom
+						const y = canvas_height - height;
+						ctx.beginPath();
+						ctx.roundRect(x, y, bar_width, height, [
+							bar_width / 2,
+							bar_width / 2,
+							0,
+							0,
+						]);
+						ctx.fill();
+					}
 				}
 				request_ref = requestAnimationFrame(render_frame);
 				return;
@@ -77,7 +112,9 @@
 			const bar_count = Math.floor(
 				canvas_width / (bar_width + bar_gap),
 			);
-			const multiplier = canvas_height / 255;
+			const base_multiplier = mirror_mode
+				? canvas_height / 2 / 255
+				: canvas_height / 255;
 
 			// Use the computed style directly
 			ctx.fillStyle = primary_color;
@@ -94,18 +131,46 @@
 				}
 
 				const x = i * (bar_width + bar_gap);
-				const height = value * multiplier;
-				const y = canvas_height - height;
+				const height = value * base_multiplier;
 
-				// Draw rounded bars
-				ctx.beginPath();
-				ctx.roundRect(x, y, bar_width, height, [
-					bar_width / 2,
-					bar_width / 2,
-					0,
-					0,
-				]);
-				ctx.fill();
+				if (mirror_mode) {
+					// Draw main bar from center up
+					const center_y = canvas_height / 2;
+					const y_up = center_y - height;
+
+					ctx.beginPath();
+					ctx.roundRect(x, y_up, bar_width, height, [
+						bar_width / 2,
+						bar_width / 2,
+						0,
+						0,
+					]);
+					ctx.fill();
+
+					// Draw mirrored bar from center down with reduced opacity
+					ctx.save();
+					ctx.globalAlpha = 0.6;
+					ctx.beginPath();
+					ctx.roundRect(x, center_y, bar_width, height, [
+						0,
+						0,
+						bar_width / 2,
+						bar_width / 2,
+					]);
+					ctx.fill();
+					ctx.restore();
+				} else {
+					// Normal mode: bars from bottom
+					const y = canvas_height - height;
+					ctx.beginPath();
+					ctx.roundRect(x, y, bar_width, height, [
+						bar_width / 2,
+						bar_width / 2,
+						0,
+						0,
+					]);
+					ctx.fill();
+				}
 			}
 		} else {
 			// Draw placeholder line when not recording

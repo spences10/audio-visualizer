@@ -2,6 +2,7 @@ let is_recording = $state(false);
 let transcript = $state('');
 let enable_grammar_correction = $state(true); // Default enabled
 let audio_data = $state<Uint8Array | null>(null);
+let mirror_mode = $state(true);
 
 export const recording = {
 	get is_recording() {
@@ -31,5 +32,12 @@ export const recording = {
 
 	set_audio_data(value: Uint8Array | null) {
 		audio_data = value;
+	},
+
+	get mirror_mode() {
+		return mirror_mode;
+	},
+	set mirror_mode(value: boolean) {
+		mirror_mode = value;
 	},
 };

@@ -23,7 +23,7 @@
 	<h1 class="mb-8 text-3xl font-bold">Audio Visualizer</h1>
 
 	<div class="space-y-6">
-		<div class="flex justify-center">
+		<div class="flex items-center justify-center gap-4">
 			<button
 				class="btn btn-circle btn-lg {recording.is_recording
 					? 'btn-error'
@@ -39,12 +39,22 @@
 					<Mic height="24px" width="24px" />
 				{/if}
 			</button>
+
+			<label class="label flex cursor-pointer items-center gap-2">
+				<span class="label-text text-sm">Mirror</span>
+				<input
+					type="checkbox"
+					class="toggle bg-base-300 toggle-lg toggle-primary checked:bg-none"
+					bind:checked={recording.mirror_mode}
+				/>
+			</label>
 		</div>
 
 		<div class="rounded-lg bg-base-200 p-4">
 			<AudioVisualizer
 				is_recording={recording.is_recording}
 				get_audio_data={() => recording.get_audio_data()}
+				mirror_mode={recording.mirror_mode}
 			/>
 		</div>
 	</div>
