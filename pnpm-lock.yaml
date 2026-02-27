@@ -91,7 +91,7 @@ importers:
         version: 4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
       vitest-browser-svelte:
         specifier: ^2.0.0
-        version: 2.0.1(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2))
+        version: 2.0.2(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2))
 
 packages:
 
@@ -638,6 +638,12 @@ packages:
     resolution: {integrity: sha512-4+9w8ZHOiGnpcGI6z1TVVfWaX/koK7fKeSYF3qlYg2xpBtbteP2ddBxiarL+HVgfSJGeK5RIxRQmKm4rTJJAwA==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
+
+  '@testing-library/svelte-core@1.0.0':
+    resolution: {integrity: sha512-VkUePoLV6oOYwSUvX6ShA8KLnJqZiYMIbP2JW2t0GLWLkJxKGvuH5qrrZBV/X7cXFnLGuFQEC7RheYiZOW68KQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5 || ^5.0.0-next.0
 
   '@types/chai@5.2.2':
     resolution: {integrity: sha512-8kB30R7Hwqf40JPiKhVzodJs2Qc1ZJ5zuT3uzw5Hq/dhNCl3G3l83jfpdI1e20BP348+fV7VIL/+FxaXkqBmWg==}
@@ -1556,8 +1562,8 @@ packages:
       vite:
         optional: true
 
-  vitest-browser-svelte@2.0.1:
-    resolution: {integrity: sha512-z7GFio7vxaOolY+xwPUMEKuwL4KcPzB8+bepA9F0Phqag/TJ4j7IAGSwm4Y/FBh7KznsP+7aEIllMay0qDpFXw==}
+  vitest-browser-svelte@2.0.2:
+    resolution: {integrity: sha512-OLJVYoIYflwToFIy3s41pZ9mVp6dwXfYd8IIsWoc57g8DyN3SxsNJ5GB1xWFPxLFlKM+1MPExjPxLaqdELrfRQ==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5 || ^5.0.0-next.0
       vitest: ^4.0.0
@@ -2017,6 +2023,10 @@ snapshots:
       '@tailwindcss/oxide': 4.1.17
       tailwindcss: 4.1.17
       vite: 7.3.1(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
+
+  '@testing-library/svelte-core@1.0.0(svelte@5.45.6)':
+    dependencies:
+      svelte: 5.45.6
 
   '@types/chai@5.2.2':
     dependencies:
@@ -2858,8 +2868,9 @@ snapshots:
     optionalDependencies:
       vite: 7.3.1(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
 
-  vitest-browser-svelte@2.0.1(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)):
+  vitest-browser-svelte@2.0.2(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)):
     dependencies:
+      '@testing-library/svelte-core': 1.0.0(svelte@5.45.6)
       svelte: 5.45.6
       vitest: 4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
 
