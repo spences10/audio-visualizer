@@ -91,7 +91,7 @@ importers:
         version: 4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
       vitest-browser-svelte:
         specifier: ^2.0.0
-        version: 2.0.1(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2))
+        version: 2.1.0(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2))
 
 packages:
 
@@ -342,6 +342,11 @@ packages:
 
   '@playwright/test@1.57.0':
     resolution: {integrity: sha512-6TyEnHgd6SArQO8UO2OMTxshln3QMWBtPGrOCgs3wVEmQmwyuNtB10IZMfmYDE0riwNR1cu4q+pPcxMVtaG3TA==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  '@playwright/test@1.58.2':
+    resolution: {integrity: sha512-akea+6bHYBBfA9uQqSYmlJXn61cTa+jbO87xVLCWbTqbWadRVmhxlXATaOjOgcBaWU4ePo0wB41KMFv3o35IXA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -638,6 +643,12 @@ packages:
     resolution: {integrity: sha512-4+9w8ZHOiGnpcGI6z1TVVfWaX/koK7fKeSYF3qlYg2xpBtbteP2ddBxiarL+HVgfSJGeK5RIxRQmKm4rTJJAwA==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
+
+  '@testing-library/svelte-core@1.0.0':
+    resolution: {integrity: sha512-VkUePoLV6oOYwSUvX6ShA8KLnJqZiYMIbP2JW2t0GLWLkJxKGvuH5qrrZBV/X7cXFnLGuFQEC7RheYiZOW68KQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5 || ^5.0.0-next.0
 
   '@types/chai@5.2.2':
     resolution: {integrity: sha512-8kB30R7Hwqf40JPiKhVzodJs2Qc1ZJ5zuT3uzw5Hq/dhNCl3G3l83jfpdI1e20BP348+fV7VIL/+FxaXkqBmWg==}
@@ -1248,8 +1259,18 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  playwright-core@1.58.2:
+    resolution: {integrity: sha512-yZkEtftgwS8CsfYo7nm0KE8jsvm6i/PTgVtB8DL726wNf6H2IMsDuxCpJj59KDaxCtSnrWan2AeDqM7JBaultg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.57.0:
     resolution: {integrity: sha512-ilYQj1s8sr2ppEJ2YVadYBN0Mb3mdo9J0wQ+UuDhzYqURwSoW4n1Xs5vs7ORwgDGmyEh33tRMeS8KhdkMoLXQw==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.58.2:
+    resolution: {integrity: sha512-vA30H8Nvkq/cPBnNw4Q8TWz1EJyqgpuinBcHET0YVJVFldr8JDNiU9LaWAE1KqSkRYazuaBhTpB5ZzShOezQ6A==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1556,8 +1577,8 @@ packages:
       vite:
         optional: true
 
-  vitest-browser-svelte@2.0.1:
-    resolution: {integrity: sha512-z7GFio7vxaOolY+xwPUMEKuwL4KcPzB8+bepA9F0Phqag/TJ4j7IAGSwm4Y/FBh7KznsP+7aEIllMay0qDpFXw==}
+  vitest-browser-svelte@2.1.0:
+    resolution: {integrity: sha512-Uqcqn9gKhYoNOn5uGOQHSPIEGHgIz25zPP6R63LQ5+yEVHfDXdOKBMba9pBlPIgp31AxYbV9h43j9+W+5M5y+A==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5 || ^5.0.0-next.0
       vitest: ^4.0.0
@@ -1808,6 +1829,10 @@ snapshots:
     dependencies:
       playwright: 1.57.0
 
+  '@playwright/test@1.58.2':
+    dependencies:
+      playwright: 1.58.2
+
   '@polka/url@1.0.0-next.29': {}
 
   '@rollup/rollup-android-arm-eabi@4.59.0':
@@ -2017,6 +2042,10 @@ snapshots:
       '@tailwindcss/oxide': 4.1.17
       tailwindcss: 4.1.17
       vite: 7.3.1(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
+
+  '@testing-library/svelte-core@1.0.0(svelte@5.45.6)':
+    dependencies:
+      svelte: 5.45.6
 
   '@types/chai@5.2.2':
     dependencies:
@@ -2626,9 +2655,17 @@ snapshots:
 
   playwright-core@1.57.0: {}
 
+  playwright-core@1.58.2: {}
+
   playwright@1.57.0:
     dependencies:
       playwright-core: 1.57.0
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.58.2:
+    dependencies:
+      playwright-core: 1.58.2
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -2858,8 +2895,10 @@ snapshots:
     optionalDependencies:
       vite: 7.3.1(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
 
-  vitest-browser-svelte@2.0.1(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)):
+  vitest-browser-svelte@2.1.0(svelte@5.45.6)(vitest@4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)):
     dependencies:
+      '@playwright/test': 1.58.2
+      '@testing-library/svelte-core': 1.0.0(svelte@5.45.6)
       svelte: 5.45.6
       vitest: 4.0.16(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.2)
 
