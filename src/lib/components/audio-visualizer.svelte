@@ -3,11 +3,11 @@
 		is_recording,
 		get_audio_data,
 		mirror_mode = false,
-	} = $props<{
+	}: {
 		is_recording: boolean;
 		get_audio_data: () => Uint8Array | null;
 		mirror_mode?: boolean;
-	}>();
+	} = $props();
 
 	let canvas_ref = $state<HTMLCanvasElement | null>(null);
 	let color_ref = $state<HTMLDivElement | null>(null);

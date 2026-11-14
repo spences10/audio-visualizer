@@ -1,4 +1,4 @@
-import { recording } from '$lib/state/audio-state.svelte';
+import { recording } from '#lib/state/audio-state.svelte.ts';
 
 // Audio visualization components
 let audio_context: AudioContext | null = null;
@@ -34,8 +34,9 @@ export async function start_audio_visualization() {
 		});
 
 		// Set up audio analysis for visualization
-		audio_context = new (window.AudioContext ||
-			(window as any).webkitAudioContext)();
+		audio_context = new (
+			window.AudioContext || (window as any).webkitAudioContext
+		)();
 		analyser = audio_context.createAnalyser();
 		analyser.fftSize = 256;
 		audio_source =

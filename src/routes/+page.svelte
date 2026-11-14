@@ -1,12 +1,12 @@
 <script lang="ts">
-	import AudioVisualizer from '$lib/components/audio-visualizer.svelte';
-	import Mic from '$lib/icons/mic.svelte';
-	import Stop from '$lib/icons/stop.svelte';
+	import AudioVisualizer from '#lib/components/audio-visualizer.svelte';
+	import Mic from '#lib/icons/mic.svelte';
+	import Stop from '#lib/icons/stop.svelte';
 	import {
 		start_audio_visualization,
 		stop_audio_visualization,
-	} from '$lib/services/audio-service';
-	import { recording } from '$lib/state/audio-state.svelte';
+	} from '#lib/services/audio-service.ts';
+	import { recording } from '#lib/state/audio-state.svelte.ts';
 
 	function toggle_recording() {
 		if (recording.is_recording) {
