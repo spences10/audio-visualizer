@@ -41,7 +41,7 @@ importers:
         version: 5.1.0(@voidzero-dev/vite-plus-core@1.6.0(@types/node@24.19.2)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3))(playwright@1.65.1)(vitest@5.1.0)
       daisyui:
         specifier: ^5.5.19
-        version: 5.8.0
+        version: 5.8.1
       playwright:
         specifier: ^1.58.2
         version: 1.65.1
@@ -1025,8 +1025,8 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
-  daisyui@5.8.0:
-    resolution: {integrity: sha512-pIdff0OLXTgCNvbRZlY2W2qjCnJd7DgRLyTpzhHgg+JqMzVDsQoRzJXyDKyPCOUYvTFHlOt97+JCeGyxQav4Zw==}
+  daisyui@5.8.1:
+    resolution: {integrity: sha512-ptP4WHOJ6WltNnA5zwkg3GypOLhsyUM2FHuXCckWVEpWviioInFKsjnShCWYGYHsQ5P9bUCOH1tn45cKLeTUpg==}
 
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
@@ -2077,7 +2077,7 @@ snapshots:
 
   cssesc@3.0.0: {}
 
-  daisyui@5.8.0: {}
+  daisyui@5.8.1: {}
 
   deepmerge@4.3.1: {}
 
